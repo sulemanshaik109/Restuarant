@@ -1,0 +1,18 @@
+.category-item {
+  height: 180px;
+}
+
+.category-btn {
+  font-size: 45px;
+  padding: 40px;
+  border: none;
+  background: none;
+  width: 500px;
+  height: 100%;
+}
+
+.active-category {
+  color: #f25252;
+  font-weight: bold;
+  border-bottom: 4px solid #f25252;
+}
