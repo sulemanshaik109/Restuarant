@@ -1,0 +1,60 @@
+.header-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 5px 40px;
+  box-shadow: 5px 5px 10px #d9dedb;
+}
+
+.main-heading {
+  font-family: 'Roboto';
+  color: #000000;
+  font-size: 60px;
+  font-weight: bold;
+}
+
+.my-orders-container {
+  display: flex;
+}
+
+.count-container {
+  background-color: #f06837;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+  height: 50px;
+  width: 50px;
+  border-radius: 30px;
+}
+
+.count {
+  color: #ffffff;
+  font-family: 'Roboto';
+  font-size: 30px;
+}
+
+.logout-desktop-btn {
+  font-family: 'Roboto';
+  font-weight: 600;
+  font-size: 20px;
+  padding: 8px 16px;
+  color: #ffffff;
+  background-color: #0967d2;
+  border: none;
+  border-radius: 4px;
+  margin-left: 14px;
+  cursor: pointer;
+  outline: none;
+  align-self: center;
+}
+
+@media screen and (max-width: 768px) {
+  .logout-desktop-btn {
+    font-size: 10px;
+  }
+}
+
+.link-item {
+  text-decoration: none;
+}

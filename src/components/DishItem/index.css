@@ -81,6 +81,8 @@
   border: none;
   color: #ffffff;
   font-size: 50px;
+  cursor: pointer;
+  outline: none;
 }
 
 .dish-quantity {
@@ -93,10 +95,32 @@
   color: #5566d9;
   font-family: 'Roboto';
   font-size: 40px;
+  margin-bottom: 0px;
 }
 
 .not-available {
   color: red;
   font-family: 'Roboto';
   font-size: 40px;
+}
+
+.add-btn {
+  color: #ffffff;
+  font-family: 'Roboto';
+  font-size: 14px;
+  font-weight: 500;
+  background-color: #3b82f6;
+  border: none;
+  border-radius: 4px;
+  padding-top: 12px;
+  padding-bottom: 12px;
+  padding-left: 20px;
+  padding-right: 20px;
+  outline: none;
+  cursor: pointer;
+  margin-top: 20px;
+}
+
+.content-container {
+  width: 50%;
 }

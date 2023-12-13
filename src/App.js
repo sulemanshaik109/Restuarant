@@ -1,114 +1,109 @@
 import {Component} from 'react'
-import {AiOutlineShoppingCart} from 'react-icons/ai'
-import CategoryItem from './components/CategoryItem'
-import DishItem from './components/DishItem'
+import {BrowserRouter, Switch, Route} from 'react-router-dom'
+import Home from './components/Home'
+import Login from './components/Login'
+import ProtectedRoute from './components/ProtectedRoute'
+import Cart from './components/Cart'
+import CartContext from './context/CartContext'
+
 import './App.css'
 
 class App extends Component {
   state = {
-    restaurantData: {},
-    apiStatus: 'inProgress',
-    activeCategory: '',
-    count: 0,
+    cartList: [],
   }
 
-  componentDidMount() {
-    this.getRestaurantDetails()
+  removeAllCartItems = () => {
+    this.setState({cartList: []})
   }
 
-  getFormattedDishes = eachCategoryDish => ({
-    dishId: eachCategoryDish.dish_id,
-    dishName: eachCategoryDish.dish_name,
-    dishPrice: eachCategoryDish.dish_price,
-    dishImage: eachCategoryDish.dish_image,
-    dishCurrency: eachCategoryDish.dish_currency,
-    dishCalories: eachCategoryDish.dish_calories,
-    dishDescription: eachCategoryDish.dish_description,
-    dishAvailability: eachCategoryDish.dish_Availability,
-    addonCat: eachCategoryDish.addonCat,
-  })
-
-  getFormattedMenuItems = eachMenuItem => ({
-    menuCategory: eachMenuItem.menu_category,
-    menuCategoryId: eachMenuItem.menu_category_id,
-    categoryDishes: eachMenuItem.category_dishes.map(eachCategoryDish =>
-      this.getFormattedDishes(eachCategoryDish),
-    ),
-  })
-
-  getRestaurantDetails = async () => {
-    const response = await fetch(
-      'https://run.mocky.io/v3/77a7e71b-804a-4fbd-822c-3e365d3482cc',
-    )
-    const fetchedData = await response.json()
-    const updatedData = fetchedData.map(data => ({
-      restaurantName: data.restaurant_name,
-      tableMenuList: data.table_menu_list.map(eachMenuItem =>
-        this.getFormattedMenuItems(eachMenuItem),
-      ),
+  incrementCartItemQuantity = id => {
+    this.setState(prevState => ({
+      cartList: prevState.cartList.map(eachCartItem => {
+        if (id === eachCartItem.dishId) {
+          const updatedQuantity = eachCartItem.quantity + 1
+          return {...eachCartItem, quantity: updatedQuantity}
+        }
+        return eachCartItem
+      }),
     }))
-    this.setState({
-      restaurantData: updatedData[0],
-      apiStatus: 'success',
-      activeCategory: updatedData[0].tableMenuList[0].menuCategoryId,
-    })
   }
 
-  clickCategory = id => {
-    this.setState({activeCategory: id})
+  decrementCartItemQuantity = id => {
+    const {cartList} = this.state
+    const dishObject = cartList.find(eachCartItem => eachCartItem.dishId === id)
+    if (dishObject.quantity > 1) {
+      this.setState(prevState => ({
+        cartList: prevState.cartList.map(eachCartItem => {
+          if (id === eachCartItem.dishId) {
+            const updatedQuantity = eachCartItem.quantity - 1
+            return {...eachCartItem, quantity: updatedQuantity}
+          }
+          return eachCartItem
+        }),
+      }))
+    } else {
+      this.removeCartItem(id)
+    }
   }
 
-  renderRestaurant = () => {
-    const {restaurantData, activeCategory, count} = this.state
-    const {restaurantName, tableMenuList} = restaurantData
-    const activeCategoryDishes = tableMenuList.find(
-      each => each.menuCategoryId === activeCategory,
+  removeCartItem = id => {
+    const {cartList} = this.state
+    const updatedCartList = cartList.filter(
+      eachCartItem => eachCartItem.dishId !== id,
     )
-    return (
-      <>
-        <div className="header-container">
-          <h1 className="main-heading">{restaurantName}</h1>
-          <div className="my-orders-container">
-            <p className="my-orders">My orders</p>
-            <AiOutlineShoppingCart color="#3b3d40" size={80} />
-            <div className="count-container">
-              <p className="count">{count}</p>
-            </div>
-          </div>
-        </div>
-        <ul className="categories-list">
-          {tableMenuList.map(menuItem => (
-            <CategoryItem
-              key={menuItem.menuCategoryId}
-              categoryId={menuItem.menuCategoryId}
-              category={menuItem.menuCategory}
-              isActive={activeCategory === menuItem.menuCategoryId}
-              clickCategory={this.clickCategory}
-            />
-          ))}
-        </ul>
-        <ul className="dishes-list">
-          {activeCategoryDishes.categoryDishes.map(eachDish => (
-            <DishItem key={eachDish.dishId} dishDetails={eachDish} />
-          ))}
-        </ul>
-      </>
-    )
+
+    this.setState({cartList: updatedCartList})
   }
 
-  renderRestaurantApp = () => {
-    const {apiStatus} = this.state
+  addCartItem = dish => {
+    const {cartList} = this.state
+    const dishObject = cartList.find(
+      eachCartItem => eachCartItem.DishId === dish.dishId,
+    )
 
-    switch (apiStatus) {
-      case 'success':
-        return this.renderRestaurant()
-      default:
-        return null
+    if (dishObject) {
+      this.setState(prevState => ({
+        cartList: prevState.cartList.map(eachCartItem => {
+          if (dishObject.dishId === eachCartItem.dishId) {
+            const updatedQuantity = eachCartItem.quantity + dish.quantity
+
+            return {...eachCartItem, quantity: updatedQuantity}
+          }
+
+          return eachCartItem
+        }),
+      }))
+    } else {
+      const updatedCartList = [...cartList, dish]
+
+      this.setState({cartList: updatedCartList})
     }
   }
 
   render() {
-    return <>{this.renderRestaurantApp()}</>
+    const {cartList} = this.state
+
+    return (
+      <CartContext.Provider
+        value={{
+          cartList,
+          addCartItem: this.addCartItem,
+          removeCartItem: this.removeCartItem,
+          incrementCartItemQuantity: this.incrementCartItemQuantity,
+          decrementCartItemQuantity: this.decrementCartItemQuantity,
+          removeAllCartItems: this.removeAllCartItems,
+        }}
+      >
+        <BrowserRouter>
+          <Switch>
+            <Route exact path="/login" component={Login} />
+            <ProtectedRoute exact path="/" component={Home} />
+            <ProtectedRoute exact path="/cart" component={Cart} />
+          </Switch>
+        </BrowserRouter>
+      </CartContext.Provider>
+    )
   }
 }
 
