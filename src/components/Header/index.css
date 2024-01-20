@@ -4,6 +4,9 @@
   align-items: center;
   padding: 5px 40px;
   box-shadow: 5px 5px 10px #d9dedb;
+  position: sticky;
+  top: 0px;
+  background-color: #ffffff;
 }
 
 .main-heading {
@@ -57,4 +60,12 @@
 
 .link-item {
   text-decoration: none;
+}
+
+.cart-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  outline: none;
+  display: flex;
 }

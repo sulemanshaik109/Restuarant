@@ -1,8 +1,8 @@
 import {Component} from 'react'
 import {BrowserRouter, Switch, Route} from 'react-router-dom'
-import Home from './components/Home'
 import Login from './components/Login'
 import ProtectedRoute from './components/ProtectedRoute'
+import Home from './components/Home'
 import Cart from './components/Cart'
 import CartContext from './context/CartContext'
 
@@ -59,7 +59,7 @@ class App extends Component {
   addCartItem = dish => {
     const {cartList} = this.state
     const dishObject = cartList.find(
-      eachCartItem => eachCartItem.DishId === dish.dishId,
+      eachCartItem => eachCartItem.dishId === dish.dishId,
     )
 
     if (dishObject) {

@@ -28,9 +28,9 @@ const CartItem = props => (
 
       return (
         <li className="cart-item">
-          <img className="cart-product-image" src={dishImage} alt={dishName} />
+          <img className="cart-dish-image" src={dishImage} alt={dishName} />
           <div className="cart-item-details-container">
-            <p className="cart-product-title">{dishName}</p>
+            <p className="cart-dish-title">{dishName}</p>
             <div className="cart-quantity-container">
               <button
                 type="button"
@@ -49,12 +49,11 @@ const CartItem = props => (
               </button>
             </div>
             <div className="total-price-remove-container">
-              <p className="cart-total-price">Rs {dishPrice * quantity}/-</p>
+              <p className="cart-total-price">SAR {dishPrice * quantity}/-</p>
               <button
                 className="remove-button"
                 type="button"
                 onClick={onRemoveCartItem}
-                data-testid="remove"
               >
                 Remove
               </button>

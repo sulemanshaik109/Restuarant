@@ -22,7 +22,7 @@
   }
 }
 
-.cart-product-image {
+.cart-dish-image {
   width: 96px;
   height: 96px;
   border-radius: 4px;
@@ -40,36 +40,19 @@
   }
 }
 
-@media screen and (min-width: 768px) {
-  .cart-product-title-brand-container {
-    width: 250px;
-  }
-}
-
-.cart-product-title {
+.cart-dish-title {
   color: #171f46;
   font-family: 'Roboto';
   font-size: 12px;
   font-weight: 500;
   margin-top: 0;
   margin-bottom: 0;
+  width: 200px;
 }
 
 @media screen and (min-width: 768px) {
-  .cart-product-title {
+  .cart-dish-title {
     font-size: 16px;
-  }
-}
-
-.cart-product-brand {
-  color: #64748b;
-  font-family: 'Roboto';
-  font-size: 10px;
-}
-
-@media screen and (min-width: 768px) {
-  .cart-product-brand {
-    font-size: 12px;
   }
 }
 
