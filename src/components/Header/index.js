@@ -31,7 +31,7 @@ const Header = props => (
             <button
               type="button"
               className="cart-btn"
-              data-testid="cart"
+              testid="cart"
               onClick={onClickCartBtn}
             >
               <AiOutlineShoppingCart color="#3b3d40" size={80} />
